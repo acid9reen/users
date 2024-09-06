@@ -1,21 +1,16 @@
-FROM golang:1.22.6-alpine AS deps
-
-WORKDIR /app
-
-COPY go.mod go.sum ./
-RUN go mod download
-
 FROM golang:1.22.6-alpine AS builder
 
 WORKDIR /app
 
-COPY --from=deps /go/pkg /go/pkg
 COPY ./cmd ./cmd
 COPY ./config ./config
-COPY ./go.mod .
-COPY ./go.sum .
+COPY ./go.mod go.sum ./
 
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -o main cmd/httpserver/main.go
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    go mod download
+
+RUN --mount=type=cache,target=/go/pkg/mod/ \
+    go build -o main cmd/httpserver/main.go
 
 FROM debian:bookworm-slim
 
