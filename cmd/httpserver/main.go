@@ -25,8 +25,8 @@ func main() {
 		URL:  "/favicon.ico",
 	}))
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendStatus(200)
+	app.Get("/healthcheck", func(c *fiber.Ctx) error {
+		return c.JSON(&fiber.Map{})
 	})
 
 	app.Listen(":" + config.HTTP.Port)
