@@ -2,9 +2,7 @@ FROM golang:1.22.6-alpine AS builder
 
 WORKDIR /app
 
-COPY ./cmd ./cmd
-COPY ./config ./config
-COPY ./go.mod go.sum ./
+COPY . .
 
 RUN --mount=type=cache,target=/go/pkg/mod/ \
     go mod download
