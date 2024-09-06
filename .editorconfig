@@ -1,0 +1,15 @@
+# EditorConfig is awesome: https://editorconfig.org
+
+# top-most EditorConfig file
+root = true
+
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+[*.{go}]
+indent_style = tab
+charset = utf-8
+
+[Makefile]
+indent_style = tab
