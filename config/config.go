@@ -23,9 +23,14 @@ type (
 func NewConfig() (*Config, error) {
 	cfg := &Config{}
 
-	err := cleanenv.ReadConfig("./.env", cfg)
-	if err != nil {
-		return nil, fmt.Errorf("config error: %w", err)
+	envErr := cleanenv.ReadEnv(cfg)
+	if envErr == nil {
+		return cfg, nil
+	}
+
+	envFileErr := cleanenv.ReadConfig(".env", cfg)
+	if envFileErr != nil {
+		return nil, fmt.Errorf("config error: %w", envFileErr)
 	}
 
 	return cfg, nil
