@@ -12,19 +12,24 @@ default-config: .env
 	cp $< $@
 
 # Docker -------------------------------------------------->
+USERS_SERVICE_CONTAINER__NETWORK_NAME ?= users-service
+USERS_SERVICE_CONTAINER__IMAGE_NAME ?= users-service
+USERS_SERVICE_CONTAINER__CONTAINER_NAME ?= users-service-c
+
 .PHONY: docker-up
-docker-up: docker-build docker-run
+docker-up: docker-build docker-create-network docker-run
 
 .PHONY: docker-build
 docker-build:
-	${OCI} build --tag users-service:${USERS_APP__VERSION} .
+	${OCI} build --tag ${USERS_SERVICE_CONTAINER__IMAGE_NAME}:${USERS_APP__VERSION} .
 
 .PHONY: docker-run
 docker-run:
 	${OCI} run \
 		--rm \
 		--detach \
-		--name users-service-c \
+		--name ${USERS_SERVICE_CONTAINER__CONTAINER_NAME} \
+		--network ${USERS_SERVICE_CONTAINER__NETWORK_NAME} \
 		--publish ${USERS_HTTP__PORT}:${USERS_HTTP__PORT} \
 		--env-file .env \
 		--health-cmd "curl --fail http://localhost:${USERS_HTTP__PORT}/healthcheck || exit 1" \
@@ -32,15 +37,20 @@ docker-run:
 			--health-interval 30s \
 			--health-timeout 3s \
 			--health-retries 3 \
-		users-service:${USERS_APP__VERSION}
+		${USERS_SERVICE_CONTAINER__IMAGE_NAME}:${USERS_APP__VERSION}
 
 .PHONY: docker-stop
 docker-stop:
-	${OCI} container stop users-service-c
+	${OCI} container stop ${USERS_SERVICE_CONTAINER__CONTAINER_NAME}
 
 .PHONY: docker-clean
 docker-clean:
-	${OCI} image rm users-service:${USERS_APP__VERSION}
+	-${OCI} image rm ${USERS_SERVICE_CONTAINER__IMAGE_NAME}:${USERS_APP__VERSION}
+	-${OCI} network rm ${USERS_SERVICE_CONTAINER__NETWORK_NAME}
+
+.PHONY: docker-create-network
+docker-create-network:
+	-${OCI} network create --driver bridge ${USERS_SERVICE_CONTAINER__NETWORK_NAME}
 
 # Dev -------------------------------------------------->
 # Run server instance with hot-reaload
