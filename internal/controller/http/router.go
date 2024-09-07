@@ -11,6 +11,7 @@ import (
 
 func Setup(
 	config *config.App,
+	logger LoggerInterface,
 ) *fiber.App {
 	app := fiber.New(fiber.Config{
 		AppName: config.Name + " " + config.Version,
@@ -26,7 +27,7 @@ func Setup(
 		URL:  "/favicon.ico",
 	}))
 
-	healthcheck.UseSubRoute(app)
+	healthcheck.UseSubRoute(app, logger)
 
 	return app
 }

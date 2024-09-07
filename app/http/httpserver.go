@@ -12,14 +12,15 @@ import (
 
 type App struct {
 	config *config.Config
+	logger LoggerInterface
 }
 
-func New(config *config.Config) *App {
-	return &App{config}
+func New(config *config.Config, logger LoggerInterface) *App {
+	return &App{config, logger}
 }
 
 func (a *App) Run() {
-	app := v1.Setup(&a.config.App)
+	app := v1.Setup(&a.config.App, a.logger)
 	err := app.Listen(":" + a.config.HTTP.Port)
 	if err != nil {
 		fmt.Printf("Can't start fiber server %v\n", err)

@@ -5,6 +5,7 @@ import (
 
 	"users/app/http"
 	"users/config"
+	"users/pkg/logging"
 )
 
 func main() {
@@ -14,6 +15,10 @@ func main() {
 		return
 	}
 
-	app := http.New(config)
+	logger := logging.NewLogger(config.Logger.Level)
+
+	logger.Info("Initializing app")
+	app := http.New(config, logger)
+	logger.Info("App created")
 	app.Run()
 }

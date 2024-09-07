@@ -8,8 +8,9 @@ import (
 
 type (
 	Config struct {
-		App  `env-prefix:"USERS_APP__"`
-		HTTP `env-prefix:"USERS_HTTP__"`
+		App    `env-prefix:"USERS_APP__"`
+		HTTP   `env-prefix:"USERS_HTTP__"`
+		Logger `env-prefix:"USERS_LOGGER__"`
 	}
 	App struct {
 		Name    string `env-required:"true" env:"NAME"`
@@ -17,6 +18,9 @@ type (
 	}
 	HTTP struct {
 		Port string `env-required:"true" env:"PORT"`
+	}
+	Logger struct {
+		Level string `env-required:"true" env:"LEVEL"`
 	}
 )
 
