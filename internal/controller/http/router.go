@@ -10,7 +10,7 @@ import (
 )
 
 func Setup(
-	config *config.Config,
+	config *config.App,
 ) *fiber.App {
 	app := fiber.New(fiber.Config{
 		AppName: config.Name + " " + config.Version,

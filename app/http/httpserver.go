@@ -19,7 +19,7 @@ func New(config *config.Config) *App {
 }
 
 func (a *App) Run() {
-	app := v1.Setup(a.config)
+	app := v1.Setup(&a.config.App)
 	err := app.Listen(":" + a.config.HTTP.Port)
 	if err != nil {
 		fmt.Printf("Can't start fiber server %v\n", err)
