@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"users/app/http"
-	"users/config"
-	"users/pkg/logging"
+	"github.com/acid9reen/users/app/http"
+	"github.com/acid9reen/users/config"
+	"github.com/acid9reen/users/pkg/logging"
 )
 
 func main() {

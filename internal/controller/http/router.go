@@ -5,8 +5,8 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	fiberLogger "github.com/gofiber/fiber/v2/middleware/logger"
 
-	"users/config"
-	"users/internal/controller/http/healthcheck"
+	"github.com/acid9reen/users/config"
+	"github.com/acid9reen/users/internal/controller/http/healthcheck"
 )
 
 func Setup(

@@ -1,4 +1,4 @@
-module users
+module github.com/acid9reen/users
 
 go 1.22.6
 

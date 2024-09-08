@@ -5,9 +5,9 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
-	"users/config"
 
-	"users/internal/controller/http"
+	"github.com/acid9reen/users/config"
+	"github.com/acid9reen/users/internal/controller/http"
 )
 
 type App struct {
